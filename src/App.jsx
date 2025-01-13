@@ -10,8 +10,12 @@ function App() {
     githubUsername: '',
   })
   const [errorMessage, seterrorMessage] = useState({})
-
   const [imagePreview, setImagePreview] = useState(null)
+  const [hints, sethints] = useState({
+    fullName: "Your full name must include both first and last name",
+    email: "Enter a valid email address (e.g example@gmail.com)",
+    githubUsername: "Enter your github username"
+  })
 
  // Resize the uploaded image
 const handleFileChange = (e) => {
@@ -160,33 +164,71 @@ const handleSubmit = (e) => {
     </div> 
    
       <form onSubmit={handleSubmit} onKeyDown={handleKeyDown} class="mt-6">
-        <div class="mb-5">
+      <label 
+      htmlFor='fullName'
+      className="block text-gray-700 font-medium mb-2"
+      >
+        Full Name
+      </label>
+       <div class="mb-5 group relative">
             <input type="text" id="fullName" 
             name="fullName" 
             value={formData.fullName} 
-            onChange={handleChange} 
+            onChange={handleChange}
+            aria-describedby="fullName-hint fullName-error"
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 py-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
             {errorMessage.fullName && (
-              <p className="text-red-500 text-sm mt-4">{errorMessage.fullName}</p>
+              <p className="text-red-500 text-sm mt-3">{errorMessage.fullName}</p>
             )}
+          <p 
+          id="fullName-hint" 
+          className="absolute text-sm text-gray-700 mt-1 hidden group-hover:block bg-gray-50 px-3 py-1 rounded shadow"
+          style={{ top: "100%", left: "0", marginTop: "4px" }}
+          >
+          {hints.fullName}
+        </p>
         </div>
-        <div class="mb-5">
+        <label 
+        htmlFor='email'
+        className="block text-gray-700 font-medium mb-2"
+        >
+        Email
+        </label>
+        <div class="mb-5 group relative">
             <input type="text" id="email" 
             name="email" 
             value={formData.email} 
             onChange={handleChange} 
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  py-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="example@gmail.com" />
             {errorMessage.email && (
-              <p className="text-red-500 text-sm mt-4">{errorMessage.email}</p>
+              <p className="text-red-500 text-sm mt-3">{errorMessage.email}</p>
             )}
+             <p id="fullName-hint" 
+                className="absolute text-sm text-gray-700 mt-1 hidden group-hover:block bg-gray-50 px-3 py-1 rounded shadow"
+                style={{ top: "100%", left: "0", marginTop: "4px" }}
+              >
+              {hints.email}
+              </p>
         </div>
-        <div class="mb-5">
+        <label 
+        htmlFor='githubUsername'
+        className="block text-gray-700 font-medium mb-2"
+        >
+        Gitbhub User
+        </label>
+        <div class="mb-5 group relative">
             <input type="text" id="githubUsername" name="githubUsername" value={formData.githubUsername} onChange={handleChange} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 py-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="@yourusername" />
             {errorMessage.githubUsername && (
-              <p className="text-red-500 text-sm mt-4">{errorMessage.githubUsername}</p>
+              <p className="text-red-500 text-sm mt-3">{errorMessage.githubUsername}</p>
             )}
+            <p id="fullName-hint" 
+          className="absolute text-sm text-gray-700 mt-1 hidden group-hover:block bg-gray-50 px-3 py-1 rounded shadow"
+          style={{ top: "100%", left: "0", marginTop: "4px" }}
+          >
+            {hints.githubUsername}
+            </p>
         </div>
-        <button type="submit" class="text-white text-lx btn bg-red-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-6 py-4 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Generate my ticket</button>
+        <button type="submit" class="text-white text-lx btn bg-red-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-6 py-4 mb-4 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Generate my ticket</button>
         </form>
     </div>
   </>

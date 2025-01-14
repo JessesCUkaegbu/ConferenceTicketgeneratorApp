@@ -1,5 +1,5 @@
 import './App.css';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import Header from './components/header'
 import Confirmation from './components/confirmation';
 
@@ -11,6 +11,9 @@ function App() {
   })
   const [errorMessage, seterrorMessage] = useState({})
   const [imagePreview, setImagePreview] = useState(null)
+  const [isTicketGenerated, setIsTicketGenerated] = useState(false)
+
+
   const [hints, sethints] = useState({
     fullName: "Your full name must include both first and last name",
     email: "Enter a valid email address (e.g example@gmail.com)",
@@ -112,15 +115,65 @@ const handleSubmit = (e) => {
     seterrorMessage(newErrors);
     return;
   }
+
+  setIsTicketGenerated(true);
   console.log('Submitted Form Data:', formData); // Display the state in the console
 };
 
   return (
   <>
     <Header />
-    <div className="">
+    <div className=""> 
+    {isTicketGenerated ? (
+       <div class="text-center space-y-6 max-w-lg mx-auto mt-6 mb-6 text-white">
+   
+       <h1 class="font-bold text-lg uppercase">Coding Conf</h1>
+   
+       <h2 class="text-3xl font-bold">
+         Congrats, <span class="text-[#ff8466]">{formData.fullName}</span>
+         <br />Your ticket is ready.
+       </h2>
+   
+       <p class="text-sm text-gray-400">
+         We've emailed your ticket to
+         <span class="text-[#ff8466]"> {formData.email} </span> 
+        and will send updates in the run up to the event.
+       </p>
+       <div class="relative mt-10">
+         <div class="flex items-center justify-between p-8 bg-gradient-to-br from-[#2A1B54] via-[#211542] to-[#2A1B54] rounded-lg shadow-lg ring-2 ring-[#211542] relative z-10">
+           <div>
+             <h3 class="text-xl font-bold">Coding Conf</h3>
+             <p class="text-sm mt-2">Jan 31, 2025 / Austin, TX</p>
+             <div class="flex items-center mt-4 space-x-3">
+              {imagePreview && ( 
+                <img src={imagePreview} alt="Avatar"
+                 class="w-10 h-10 rounded-full ring-2 ring-[#ff8466]" /> 
+                 )}
+               <div> 
+                 <p class="font-semibold">{formData.fullName}</p>
+                 <p class="text-sm text-gray-400">{formData.email}</p>
+               </div>
+             </div>
+           </div>
+           <div class="border-l-2 border-gray-600 px-4 h-20"></div>
+           <p class="font-mono text-lg font-bold">#40609</p>
+         </div>
+         <div
+           class="absolute top-1/2 left-full h-6 w-6 rounded-full bg-[#121033] transform -translate-y-1/2 z-0 border-[3px] border-[#2A1B54]"></div>
+         <div
+           class="absolute top-1/2 right-full h-6 w-6 rounded-full bg-[#121033] transform -translate-y-1/2 z-0 border-[3px] border-[#2A1B54]"></div>
+       </div>
+       <button
+            className="mt-4 px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+            onClick={() => setIsTicketGenerated(false)}
+          >
+            Go Back
+      </button>
+      </div>
 
-    <div className="flex flex-col items-center justify-center gap-4 upload-placeholder border-dashed border-2 border-gray-300 p-6 text-center rounded-lg">
+      ) : (
+      <form onSubmit={handleSubmit} onKeyDown={handleKeyDown} class="mt-6">
+       <div className="flex flex-col items-center justify-center gap-4 upload-placeholder border-dashed border-2 border-gray-300 p-6 text-center rounded-lg">
       {imagePreview ? (
         <div className="flex items-center gap-4">
           <button
@@ -161,9 +214,8 @@ const handleSubmit = (e) => {
         Drag and drop or click to upload
       </label>
       )}
-    </div> 
-   
-      <form onSubmit={handleSubmit} onKeyDown={handleKeyDown} class="mt-6">
+    </div>
+
       <label 
       htmlFor='fullName'
       className="block text-gray-700 font-medium mb-2"
@@ -176,7 +228,7 @@ const handleSubmit = (e) => {
             value={formData.fullName} 
             onChange={handleChange}
             aria-describedby="fullName-hint fullName-error"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 py-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 py-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='Full name' />
             {errorMessage.fullName && (
               <p className="text-red-500 text-sm mt-3">{errorMessage.fullName}</p>
             )}
@@ -229,8 +281,9 @@ const handleSubmit = (e) => {
             </p>
         </div>
         <button type="submit" class="text-white text-lx btn bg-red-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-6 py-4 mb-4 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Generate my ticket</button>
-        </form>
-    </div>
+      </form>
+      )}
+    </div> 
   </>
   );
 }

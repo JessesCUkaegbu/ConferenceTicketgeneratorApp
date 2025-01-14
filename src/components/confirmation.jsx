@@ -38,7 +38,7 @@ function Confirmation() {
       <div
         class="absolute top-1/2 right-full h-6 w-6 rounded-full bg-[#121033] transform -translate-y-1/2 z-0 border-[3px] border-[#2A1B54]"></div>
     </div>
-  </div>
+   </div>
    </>
     )
 }
